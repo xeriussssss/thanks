@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>letter for zaa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f0e6f6 0%, #fce4ec 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: "Dancing Script", cursive;
+        overflow-x: hidden;
+      }
+
+      .title {
+        font-family: "Pacifico", cursive;
+        font-size: 2.5rem;
+        color: #d9534f;
+        margin-bottom: 30px;
+        text-align: center;
+        animation: fadeInDown 1s ease;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .envelope-wrapper {
+        height: 500px;
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      #envelope {
+        position: relative;
+        width: 320px;
+        height: 200px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        margin: 0 auto;
+        background-color: #d9534f;
+        box-shadow: 0 8px 30px rgba(217, 83, 79, 0.3);
+        transition: transform 0.3s ease;
+      }
+
+      #envelope:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(217, 83, 79, 0.4);
+      }
+
+      .front {
+        position: absolute;
+        width: 0;
+        height: 0;
+        z-index: 3;
+      }
+
+      .flap {
+        border-left: 160px solid transparent;
+        border-right: 160px solid transparent;
+        border-bottom: 92px solid transparent;
+        border-top: 108px solid #d9534f;
+        transform-origin: top;
+        pointer-events: none;
+      }
+
+      .pocket {
+        border-left: 160px solid #f5a3a2;
+        border-right: 160px solid #f5a3a2;
+        border-bottom: 100px solid #ff6f61;
+        border-top: 100px solid transparent;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+
+      .letter {
+        position: relative;
+        background-color: #fff;
+        width: 90%;
+        margin: 0 auto;
+        height: 90%;
+        top: 5%;
+        border-radius: 8px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      .letter-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .letter-to {
+        font-size: 1rem;
+        color: #d9534f;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .letter-dear {
+        font-size: 1.3rem;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .letter-body {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      .letter-signature {
+        font-size: 1.1rem;
+        color: #d9534f;
+        font-weight: 600;
+        margin-top: auto;
+        text-align: right;
+      }
+
+      .open .flap {
+        transform: rotateX(180deg);
+        transition: transform 0.5s ease;
+        z-index: 1;
+      }
+
+      .close .flap {
+        transform: rotateX(0deg);
+        transition: transform 0.5s 0.6s ease;
+        z-index: 5;
+      }
+
+      .close .letter {
+        transform: translateY(0px);
+        transition: transform 0.5s ease;
+        z-index: 1;
+      }
+
+      .open .letter {
+        transform: translateY(-140px);
+        transition: transform 0.5s 0.6s ease;
+        z-index: 2;
+      }
+
+      .hearts {
+        position: absolute;
+        top: 90px;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .heart {
+        position: absolute;
+        bottom: 0;
+        width: 100px;
+        height: 90px;
+        pointer-events: none;
+      }
+
+      .heart:before,
+      .heart:after {
+        position: absolute;
+        content: "";
+        left: 50px;
+        top: 0;
+        width: 50px;
+        height: 80px;
+        background: #e60073;
+        border-radius: 50px 50px 0 0;
+        transform: rotate(-45deg);
+        transform-origin: 0 100%;
+      }
+
+      .heart:after {
+        left: 0;
+        transform: rotate(45deg);
+        transform-origin: 100% 100%;
+      }
+
+      .close .heart {
+        opacity: 0;
+        animation: none;
+      }
+
+      .a1 {
+        left: 20%;
+        transform: scale(0.6);
+        opacity: 1;
+        animation: slideUp 4s linear 1 0.7s forwards,
+          sideSway 2s ease-in-out 4 0.7s alternate;
+      }
+
+      .a2 {
+        left: 55%;
+        transform: scale(1);
+        opacity: 1;
+        animation: slideUp 5s linear 1 0.7s forwards,
+          sideSway 4s ease-in-out 2 0.7s alternate;
+      }
+
+      .a3 {
+        left: 10%;
+        transform: scale(0.8);
+        opacity: 1;
+        animation: slideUp 7s linear 1 0.7s forwards,
+          sideSway 2s ease-in-out 6 0.7s alternate;
+      }
+
+      @keyframes slideUp {
+        0% {
+          top: 0;
+        }
+        100% {
+          top: -600px;
+        }
+      }
+
+      @keyframes sideSway {
+        0% {
+          margin-left: 0px;
+        }
+        100% {
+          margin-left: 50px;
+        }
+      }
+
+      @keyframes fadeInDown {
+        0% {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .button-container {
+        text-align: center;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        animation: fadeInUp 1s ease 0.3s both;
+      }
+
+      button {
+        font-family: "Dancing Script", cursive;
+        font-weight: 700;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background-color: transparent;
+        border: solid 3px #d9534f;
+        border-radius: 25px;
+        color: #d9534f;
+        padding: 12px 30px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      button:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: #d9534f;
+        transform: translate(-50%, -50%);
+        transition: width 0.4s ease, height 0.4s ease;
+        z-index: -1;
+      }
+
+      button:hover:before {
+        width: 300px;
+        height: 300px;
+      }
+
+      button:hover {
+        color: #fff;
+        border-color: #d9534f;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(217, 83, 79, 0.3);
+      }
+
+      button:active {
+        transform: translateY(-1px);
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .sparkles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #fff;
+        border-radius: 50%;
+        animation: sparkle 2s ease-in-out infinite;
+        opacity: 0;
+      }
+
+      @keyframes sparkle {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title"></h1>
+
+    <div class="envelope-wrapper">
+      <div id="envelope" class="close">
+        <div class="front flap"></div>
+        <div class="front pocket"></div>
+        <div class="letter">
+          <div class="letter-content">
+            <div class="letter-to">To: Roza</div>
+            <div class="letter-dear">Dear Zaa,</div>
+            <div class="letter-body">
+              Thank you udah nyempetin waktu nya buat ketemu. kalo ada salah
+              maaf yah semoga kita bisa ketemu lagi,see you
+              <br /><br />
+              Semoga kita bisa ketemu lagi dan membuat lebih banyak kenangan
+              indah bersama.
+            </div>
+            <div class="letter-signature">With love 💕</div>
+          </div>
+        </div>
+        <div class="hearts">
+          <div class="heart a1"></div>
+          <div class="heart a2"></div>
+          <div class="heart a3"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button id="open">Open Letter</button>
+      <button id="reset">Close Letter</button>
+    </div>
+
+    <div class="sparkles" id="sparkles"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const envelope = $("#envelope");
+        const btn_open = $("#open");
+        const btn_reset = $("#reset");
+
+        envelope.click(function () {
+          open();
+        });
+
+        btn_open.click(function () {
+          open();
+          createSparkles();
+        });
+
+        btn_reset.click(function () {
+          close();
+        });
+
+        function open() {
+          envelope.addClass("open").removeClass("close");
+        }
+
+        function close() {
+          envelope.addClass("close").removeClass("open");
+        }
+
+        function createSparkles() {
+          const sparklesContainer = $("#sparkles");
+          for (let i = 0; i < 20; i++) {
+            const sparkle = $("<div class='sparkle'></div>");
+            sparkle.css({
+              left: Math.random() * 100 + "%",
+              top: Math.random() * 100 + "%",
+              animationDelay: Math.random() * 2 + "s",
+            });
+            sparklesContainer.append(sparkle);
+
+            setTimeout(() => sparkle.remove(), 2000);
+          }
+        }
+
+        // Create initial sparkles
+        setInterval(() => {
+          if (Math.random() > 0.7) {
+            const sparkle = $("<div class='sparkle'></div>");
+            sparkle.css({
+              left: Math.random() * 100 + "%",
+              top: Math.random() * 100 + "%",
+            });
+            $("#sparkles").append(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+          }
+        }, 500);
+      });
+    </script>
+  </body>
+</html>
